@@ -77,7 +77,7 @@ jobs:
         run: |
           echo GITHUB_REPOSITORY: $GITHUB_REPOSITORY
           # LIBRARY=${GITHUB_REPOSITORY#*/}
-          LIBRARY=bloom
+          LIBRARY=unordered
           echo LIBRARY: $LIBRARY
           echo "LIBRARY=$LIBRARY" >> $GITHUB_ENV
           echo GITHUB_BASE_REF: $GITHUB_BASE_REF
@@ -102,13 +102,13 @@ jobs:
         run: |
           echo "using ${{matrix.toolset}} : : ${{matrix.compiler}} ;" > ~/user-config.jam
 
-      - name: Compile examples
+      - name: Run tests
         run: |
           cd ../boost-root
           export ADDRMD=${{matrix.address-model}}
           export CFLAGS="${{matrix.cflags}}"
           export CXXFLAGS="${{matrix.cxxflags}}"
           export LINKFLAGS="${{matrix.linkflags}}"
-          ./b2 -j3 libs/$LIBRARY/example toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} ${ADDRMD:+address-model=$ADDRMD} ${CFLAGS:+cflags="$CFLAGS"} ${CXXFLAGS:+cxxflags="$CXXFLAGS"} ${LINKFLAGS:+linkflags="$LINKFLAGS"} variant=debug,release
+          ./b2 -j3 libs/$LIBRARY/test toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} ${ADDRMD:+address-model=$ADDRMD} ${CFLAGS:+cflags="$CFLAGS"} ${CXXFLAGS:+cxxflags="$CXXFLAGS"} ${LINKFLAGS:+linkflags="$LINKFLAGS"} variant=debug,release
 
 
