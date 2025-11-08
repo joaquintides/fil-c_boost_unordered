@@ -67,12 +67,11 @@ jobs:
             cd "optfil-${fil_c_version}-linux-x86_64"
             echo -e "YES\nYES" | ./setup.sh
             echo "/opt/fil/bin" >> $GITHUB_PATH
-            #supply empty __config_site
+            #supply __config_site
             sudo mkdir -p /opt/fil/include/c++/v1
-            sudo tee /opt/fil/include/c++/v1/__config_site >/dev/null <<'EOF'
-            #pragma once
-            #define _LIBCPP_HARDENING_MODE_DEFAULT _LIBCPP_HARDENING_MODE_NONE
-            EOF
+            echo '#pragma once' | sudo tee /opt/fil/include/c++/v1/__config_site > /dev/null
+            echo '#define _LIBCPP_HARDENING_MODE_DEFAULT _LIBCPP_HARDENING_MODE_NONE' | sudo tee -a /opt/fil/include/c++/v1/__config_site > /dev/null
+            echo '#define _LIBCPP_HARDENING_MODE _LIBCPP_HARDENING_MODE_NONE' | sudo tee -a /opt/fil/include/c++/v1/__config_site > /dev/null
           fi
 
       - name: Setup Boost
