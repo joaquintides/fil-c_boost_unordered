@@ -23,7 +23,6 @@ jobs:
             cflags: --target=x86_64-unknown-linux-gnu
             cxxflags: "--target=x86_64-unknown-linux-gnu -DBOOST_ALL_NO_EMBEDDED_GDB_SCRIPTS"
             linkflags: --target=x86_64-unknown-linux-gnu
-            define:             
             cxxstd: "20"
             container: ubuntu:24.04
             os: ubuntu-latest
@@ -60,18 +59,17 @@ jobs:
           sudo apt-get -y install ${{matrix.install}}
           
       - name: Install Fil-C
+        if: startsWith(matrix.compiler, 'fil++')
         run: |
-          if [[ "${{matrix.compiler}}" == "fil++"* ]]; then
-            set -xe
-            mkdir -p /opt/downloads
-            cd /opt/downloads
-            fil_c_version="0.674"
-            wget "https://github.com/pizlonator/fil-c/releases/download/v${fil_c_version}/optfil-${fil_c_version}-linux-x86_64.tar.xz"
-            tar -xvJf "optfil-${fil_c_version}-linux-x86_64.tar.xz"
-            cd "optfil-${fil_c_version}-linux-x86_64"
-            echo -e "YES\nYES" | ./setup.sh
-            echo "/opt/fil/bin" >> $GITHUB_PATH
-          fi
+          set -xe
+          mkdir -p /opt/downloads
+          cd /opt/downloads
+          fil_c_version="0.674"
+          wget "https://github.com/pizlonator/fil-c/releases/download/v${fil_c_version}/optfil-${fil_c_version}-linux-x86_64.tar.xz"
+          tar -xvJf "optfil-${fil_c_version}-linux-x86_64.tar.xz"
+          cd "optfil-${fil_c_version}-linux-x86_64"
+          echo -e "YES\nYES" | ./setup.sh
+          echo "/opt/fil/bin" >> $GITHUB_PATH
 
       - name: Setup Boost
         run: |
