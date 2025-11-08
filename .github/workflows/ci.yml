@@ -23,9 +23,7 @@ jobs:
             cxxstd: "20"
             container: ubuntu:24.04
             os: ubuntu-latest
-            install:
-                - clang
-                - wget
+            install: clang wget
 
     runs-on: ${{matrix.os}}
     container:
