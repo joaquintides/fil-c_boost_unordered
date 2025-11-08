@@ -21,8 +21,9 @@ jobs:
           - toolset: clang
             compiler: fil++
             cflags: --target=x86_64-unknown-linux-gnu
-            cxxflags: --target=x86_64-unknown-linux-gnu
-            linkflags: --target=x86_64-unknown-linux-gnu            
+            cxxflags: "--target=x86_64-unknown-linux-gnu -DBOOST_ALL_NO_EMBEDDED_GDB_SCRIPTS"
+            linkflags: --target=x86_64-unknown-linux-gnu
+            define:             
             cxxstd: "20"
             container: ubuntu:24.04
             os: ubuntu-latest
