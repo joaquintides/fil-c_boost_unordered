@@ -67,6 +67,9 @@ jobs:
             cd "optfil-${fil_c_version}-linux-x86_64"
             echo -e "YES\nYES" | ./setup.sh
             echo "/opt/fil/bin" >> $GITHUB_PATH
+            #supply empty __config_site
+            sudo mkdir -p /opt/fil/include/c++/v1
+            echo '#pragma once' | sudo tee /opt/fil/include/c++/v1/__config_site > /dev/null
           fi
 
       - name: Setup Boost
