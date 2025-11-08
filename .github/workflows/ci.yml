@@ -106,9 +106,9 @@ jobs:
         run: |
           cd ../boost-root
           export ADDRMD=${{matrix.address-model}}
-          export CFLAGS=${{matrix.cflags}}
-          export CXXFLAGS=${{matrix.cxxflags}}
-          export LINKFLAGS=${{matrix.linkflags}}
-          ./b2 -j3 libs/$LIBRARY/example toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} ${ADDRMD:+address-model=$ADDRMD} ${CFLAGS:+cflags="$CFLAGS"} ${CXXFLAGS:+cxxflags="$CXXFLAGS"} ${LINKFLAGS:+linkflags="$LINKFLAGS"} variant=debug,release
+          export CFLAGS="${{matrix.cflags}}"
+          export CXXFLAGS="${{matrix.cxxflags}}"
+          export LINKFLAGS="${{matrix.linkflags}}"
+          ./b2 -j3 libs/$LIBRARY/example toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} ${ADDRMD:+address-model=$ADDRMD} ${CFLAGS:+cflags=$CFLAGS} ${CXXFLAGS:+cxxflags=$CXXFLAGS} ${LINKFLAGS:+linkflags=$LINKFLAGS} variant=debug,release
 
 
