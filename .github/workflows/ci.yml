@@ -20,6 +20,9 @@ jobs:
         include:
           - toolset: clang
             compiler: fil++
+            cflags: --target=x86_64-unknown-linux-gnu
+            cxxflags: --target=x86_64-unknown-linux-gnu
+            linkflags: --target=x86_64-unknown-linux-gnu            
             cxxstd: "20"
             container: ubuntu:24.04
             os: ubuntu-latest
@@ -67,11 +70,6 @@ jobs:
             cd "optfil-${fil_c_version}-linux-x86_64"
             echo -e "YES\nYES" | ./setup.sh
             echo "/opt/fil/bin" >> $GITHUB_PATH
-            #supply __config_site
-            sudo mkdir -p /opt/fil/include/c++/v1
-            echo '#pragma once' | sudo tee /opt/fil/include/c++/v1/__config_site > /dev/null
-            echo '#define _LIBCPP_HARDENING_MODE_DEFAULT _LIBCPP_HARDENING_MODE_NONE' | sudo tee -a /opt/fil/include/c++/v1/__config_site > /dev/null
-            echo '#define _LIBCPP_HARDENING_MODE _LIBCPP_HARDENING_MODE_NONE' | sudo tee -a /opt/fil/include/c++/v1/__config_site > /dev/null
           fi
 
       - name: Setup Boost
@@ -107,6 +105,9 @@ jobs:
         run: |
           cd ../boost-root
           export ADDRMD=${{matrix.address-model}}
-          ./b2 -j3 libs/$LIBRARY/example toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} ${ADDRMD:+address-model=$ADDRMD} variant=debug,release
+          export CFLAGS=${{matrix.cflags}}
+          export CXXFLAGS=${{matrix.cxxflags}}
+          export LINKFLAGS=${{matrix.linkflags}}
+          ./b2 -j3 libs/$LIBRARY/example toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} ${ADDRMD:+address-model=$ADDRMD} ${CFLAGS:+cflags=$CFLAGS} ${CXXFLAGS:+cxxflags=$CXXFLAGS} ${LINKFLAGS:+linkflags=$LINKFLAGS} variant=debug,release
 
 
