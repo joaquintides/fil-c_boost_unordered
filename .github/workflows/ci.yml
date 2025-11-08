@@ -86,7 +86,7 @@ jobs:
           cd ..
           git clone -b $BOOST_BRANCH --depth 1 https://github.com/boostorg/boost.git boost-root
           cd boost-root
-          cp -r $GITHUB_WORKSPACE/* libs/$LIBRARY
+          # cp -r $GITHUB_WORKSPACE/* libs/$LIBRARY
           git submodule update --init tools/boostdep
           python3 tools/boostdep/depinst/depinst.py -I example --git_args "--jobs 3" $LIBRARY
           ./bootstrap.sh
