@@ -69,7 +69,10 @@ jobs:
             echo "/opt/fil/bin" >> $GITHUB_PATH
             #supply empty __config_site
             sudo mkdir -p /opt/fil/include/c++/v1
-            echo '#pragma once' | sudo tee /opt/fil/include/c++/v1/__config_site > /dev/null
+            sudo tee /opt/fil/include/c++/v1/__config_site >/dev/null <<'EOF'
+#pragma once
+#define _LIBCPP_HARDENING_MODE_DEFAULT _LIBCPP_HARDENING_MODE_NONE
+EOF
           fi
 
       - name: Setup Boost
